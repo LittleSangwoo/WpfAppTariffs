@@ -38,15 +38,7 @@ namespace WpfApp2
 
         private void OrderTariff_Click(object sender, RoutedEventArgs e)
         {
-            // Получаем тариф из DataContext элемента
-            if (sender is Button button)
-            {
-                // DataContext кнопки устанавливается автоматически через DataTemplate
-                if (button.DataContext is View_1 tariff)
-                {
-                    MessageBox.Show($"Оформление тарифа \"{tariff.name}\".", "Заказ", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
+            AppConnect.frame.Navigate(new Login());
         }
         public void LoadView()
         {
