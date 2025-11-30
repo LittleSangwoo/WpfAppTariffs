@@ -22,6 +22,7 @@ namespace WpfApp2
     {
         private List<View_1> view = new List<View_1>();
         private View_1 selectedTariff;
+        private View_1 addTariff;
 
         public Calculator()
         {
@@ -54,10 +55,8 @@ namespace WpfApp2
 
         private void SetupComboBox()
         {
-            comboBoxTariffs.Text = "Выберите тариф";
             comboBoxTariffs.ItemsSource = view;
             comboBoxTariffs.DisplayMemberPath = nameof(View_1.name);
-            comboBoxTariffs.SelectedIndex = -1;
         }
 
         private void comboBoxTariffs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -83,6 +82,12 @@ namespace WpfApp2
 
         private void textBoxAddMinutes_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (String.IsNullOrEmpty(textBoxAddMinutes.Text) || String.IsNullOrEmpty(textBoxAddSms.Text) || String.IsNullOrEmpty(textBoxAddGb.Text))
+            {
+                textBoxAddMinutes.Text = "0";
+                textBoxAddSms.Text = "0";
+                textBoxAddGb.Text = "0";
+            }
             UpdateTotalPrice();
         }
 
@@ -138,17 +143,22 @@ namespace WpfApp2
                 MessageBox.Show("Сначала выберите тариф.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+            if (App.selectedTariffs.Any(t => t.name == selectedTariff.name))
+            {
+                MessageBox.Show("Тариф уже выбран!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            addTariff = selectedTariff;
+            addTariff.minutes = int.Parse(textBoxAddMinutes.Text) + selectedTariff.minutes;
+            addTariff.sms = int.Parse(textBoxAddSms.Text) + selectedTariff.sms;
+            addTariff.gb = int.Parse(textBoxAddGb.Text) + selectedTariff.gb;
+            addTariff.price = decimal.Parse(finalPrice.Text);
 
-            selectedTariff.minutesPrice = int.Parse(textBoxAddMinutes.Text);
-            selectedTariff.smsPrice = int.Parse(textBoxAddSms.Text);
-            selectedTariff.gbPrice = int.Parse(textBoxAddGb.Text);
-            selectedTariff.price = decimal.Parse(finalPrice.Text);
-
-            App.selectedTariffs.Add(selectedTariff);
+            App.selectedTariffs.Add(addTariff);
             // Добавляем тариф в глобальное хранилище для сравнения
-            MessageBox.Show($"Тариф \"{selectedTariff.name}\" добавлен к сравнению.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-            selectedTariff = null;
+            MessageBox.Show($"Тариф \"{addTariff.name}\" добавлен к сравнению.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             ClearFields();
+            addTariff = null;
         }
 
         private void OpenComparison_Click(object sender, RoutedEventArgs e)
