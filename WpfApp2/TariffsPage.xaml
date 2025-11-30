@@ -1,0 +1,107 @@
+﻿<Page x:Class="WpfApp2.TariffsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TariffsPage">
+
+    <Grid Margin="20 10 0 0" Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"
+       Text="ТАРИФЫ"
+       Margin="0 0 0 10"/>
+
+        <!-- Левая колонка -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 20 0 10">
+            <TextBlock Text="Количество минут, шт." Margin="0 5"/>
+            <TextBlock Text="Количество СМС, шт." Margin="0 5"/>
+            <TextBlock Text="ГБ, шт." Margin="0 5"/>
+
+            <TextBlock Text="+ 50 минут, руб." Margin="0 30 0 5"/>
+            <TextBlock Text="+ 10 SMS, руб."   Margin="0 5"/>
+            <TextBlock Text="+ 5 ГБ, руб."     Margin="0 5"/>
+
+            <TextBlock Text="Стоимость, руб./мес." Margin="0 20 0 0"/>
+        </StackPanel>
+
+        <!-- Правая колонка -->
+        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding view}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+
+                <DataTemplate>
+
+                    <StackPanel Margin="20 0" Width="100">
+                        <TextBlock Text="{Binding name}" 
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 5"/>
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding minutes}" Margin="0 5" HorizontalAlignment="Right"/>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding sms}"     Margin="0 5" HorizontalAlignment="Right"/>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding gb}"      Margin="0 5" HorizontalAlignment="Right"/>
+                        </Border>
+
+                        <TextBlock Text="{Binding name}" 
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 0"
+                       Visibility="Hidden"/>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding minutesPrice}" Margin="0 5" HorizontalAlignment="Right"/>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding smsPrice}" Margin="0 5" HorizontalAlignment="Right"/>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding gbPrice}" Margin="0 5" HorizontalAlignment="Right"/>
+                        </Border>
+
+                        <TextBlock Text="{Binding name}" 
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 0"
+                       Visibility="Hidden"/>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="4 0" Background="#e0e0e0">
+                            <TextBlock Text="{Binding price}" HorizontalAlignment="Right" Margin="0 0 0 0"/>
+                        </Border>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Grid.Row="2" Content="Калькулятор тарифов" Margin="0 10 0 0" Click="OpenCalculator"/>
+
+        <Frame x:Name="CalculatorFrame" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Page>

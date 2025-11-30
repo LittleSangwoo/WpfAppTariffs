@@ -1,0 +1,578 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище cellServiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="additionalServices">
+          <Key>
+            <PropertyRef Name="idAdditionalService" />
+          </Key>
+          <Property Name="idAdditionalService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTariffs" Type="int" Nullable="false" />
+          <Property Name="minutesPrice" Type="int" Nullable="false" />
+          <Property Name="smsPrice" Type="int" Nullable="false" />
+          <Property Name="gbPrice" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clientPhones">
+          <Key>
+            <PropertyRef Name="idClientPhone" />
+          </Key>
+          <Property Name="idClientPhone" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idClient" Type="int" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="14" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clients">
+          <Key>
+            <PropertyRef Name="idClient" />
+          </Key>
+          <Property Name="idClient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="passport" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="birthDate" Type="date" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="14" Nullable="false" />
+        </EntityType>
+        <EntityType Name="enableAdditionalServices">
+          <Key>
+            <PropertyRef Name="idEnableAdditionService" />
+          </Key>
+          <Property Name="idEnableAdditionService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idEnableTariff" Type="int" Nullable="false" />
+          <Property Name="idAdditionalService" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="enableTariffs">
+          <Key>
+            <PropertyRef Name="idEnableTariff" />
+          </Key>
+          <Property Name="idEnableTariff" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idClientPhone" Type="int" Nullable="false" />
+          <Property Name="idTariff" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tariffs">
+          <Key>
+            <PropertyRef Name="idTarif" />
+          </Key>
+          <Property Name="idTarif" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="minutes" Type="int" Nullable="false" />
+          <Property Name="gb" Type="int" Nullable="false" />
+          <Property Name="sms" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="types">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "cellService.dbo.View_1" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="View_1">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="minutes" />
+            <PropertyRef Name="gb" />
+            <PropertyRef Name="sms" />
+            <PropertyRef Name="price" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idTariffs" Type="int" />
+          <Property Name="minutesPrice" Type="int" />
+          <Property Name="smsPrice" Type="int" />
+          <Property Name="gbPrice" Type="int" />
+          <Property Name="minutes" Type="int" Nullable="false" />
+          <Property Name="gb" Type="int" Nullable="false" />
+          <Property Name="sms" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_additionalServices_tariffs">
+          <End Role="tariffs" Type="Self.tariffs" Multiplicity="1" />
+          <End Role="additionalServices" Type="Self.additionalServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tariffs">
+              <PropertyRef Name="idTarif" />
+            </Principal>
+            <Dependent Role="additionalServices">
+              <PropertyRef Name="idTariffs" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_clientPhones_clients">
+          <End Role="clients" Type="Self.clients" Multiplicity="1" />
+          <End Role="clientPhones" Type="Self.clientPhones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clients">
+              <PropertyRef Name="idClient" />
+            </Principal>
+            <Dependent Role="clientPhones">
+              <PropertyRef Name="idClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableAdditionalServices_additionalServices">
+          <End Role="additionalServices" Type="Self.additionalServices" Multiplicity="1" />
+          <End Role="enableAdditionalServices" Type="Self.enableAdditionalServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="additionalServices">
+              <PropertyRef Name="idAdditionalService" />
+            </Principal>
+            <Dependent Role="enableAdditionalServices">
+              <PropertyRef Name="idAdditionalService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableAdditionalServices_enableTariffs">
+          <End Role="enableTariffs" Type="Self.enableTariffs" Multiplicity="1" />
+          <End Role="enableAdditionalServices" Type="Self.enableAdditionalServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="enableTariffs">
+              <PropertyRef Name="idEnableTariff" />
+            </Principal>
+            <Dependent Role="enableAdditionalServices">
+              <PropertyRef Name="idEnableTariff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableTariffs_clientPhones">
+          <End Role="clientPhones" Type="Self.clientPhones" Multiplicity="1" />
+          <End Role="enableTariffs" Type="Self.enableTariffs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clientPhones">
+              <PropertyRef Name="idClientPhone" />
+            </Principal>
+            <Dependent Role="enableTariffs">
+              <PropertyRef Name="idClientPhone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableTariffs_tariffs">
+          <End Role="tariffs" Type="Self.tariffs" Multiplicity="1" />
+          <End Role="enableTariffs" Type="Self.enableTariffs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tariffs">
+              <PropertyRef Name="idTarif" />
+            </Principal>
+            <Dependent Role="enableTariffs">
+              <PropertyRef Name="idTariff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище cellServiceModelContainer">
+          <EntitySet Name="additionalServices" EntityType="Self.additionalServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="clientPhones" EntityType="Self.clientPhones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="clients" EntityType="Self.clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="enableAdditionalServices" EntityType="Self.enableAdditionalServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="enableTariffs" EntityType="Self.enableTariffs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tariffs" EntityType="Self.tariffs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="types" EntityType="Self.types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_1" EntityType="Self.View_1" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_1].[name] AS [name], 
+    [View_1].[idTariffs] AS [idTariffs], 
+    [View_1].[minutesPrice] AS [minutesPrice], 
+    [View_1].[smsPrice] AS [smsPrice], 
+    [View_1].[gbPrice] AS [gbPrice], 
+    [View_1].[minutes] AS [minutes], 
+    [View_1].[gb] AS [gb], 
+    [View_1].[sms] AS [sms], 
+    [View_1].[price] AS [price]
+    FROM [dbo].[View_1] AS [View_1]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_additionalServices_tariffs" Association="Self.FK_additionalServices_tariffs">
+            <End Role="tariffs" EntitySet="tariffs" />
+            <End Role="additionalServices" EntitySet="additionalServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clientPhones_clients" Association="Self.FK_clientPhones_clients">
+            <End Role="clients" EntitySet="clients" />
+            <End Role="clientPhones" EntitySet="clientPhones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableAdditionalServices_additionalServices" Association="Self.FK_enableAdditionalServices_additionalServices">
+            <End Role="additionalServices" EntitySet="additionalServices" />
+            <End Role="enableAdditionalServices" EntitySet="enableAdditionalServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableAdditionalServices_enableTariffs" Association="Self.FK_enableAdditionalServices_enableTariffs">
+            <End Role="enableTariffs" EntitySet="enableTariffs" />
+            <End Role="enableAdditionalServices" EntitySet="enableAdditionalServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableTariffs_clientPhones" Association="Self.FK_enableTariffs_clientPhones">
+            <End Role="clientPhones" EntitySet="clientPhones" />
+            <End Role="enableTariffs" EntitySet="enableTariffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableTariffs_tariffs" Association="Self.FK_enableTariffs_tariffs">
+            <End Role="tariffs" EntitySet="tariffs" />
+            <End Role="enableTariffs" EntitySet="enableTariffs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="cellServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="additionalServices">
+          <Key>
+            <PropertyRef Name="idAdditionalService" />
+          </Key>
+          <Property Name="idAdditionalService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTariffs" Type="Int32" Nullable="false" />
+          <Property Name="minutesPrice" Type="Int32" Nullable="false" />
+          <Property Name="smsPrice" Type="Int32" Nullable="false" />
+          <Property Name="gbPrice" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tariffs" Relationship="Self.FK_additionalServices_tariffs" FromRole="additionalServices" ToRole="tariffs" />
+          <NavigationProperty Name="enableAdditionalServices" Relationship="Self.FK_enableAdditionalServices_additionalServices" FromRole="additionalServices" ToRole="enableAdditionalServices" />
+        </EntityType>
+        <EntityType Name="clientPhones">
+          <Key>
+            <PropertyRef Name="idClientPhone" />
+          </Key>
+          <Property Name="idClientPhone" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idClient" Type="Int32" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="clients" Relationship="Self.FK_clientPhones_clients" FromRole="clientPhones" ToRole="clients" />
+          <NavigationProperty Name="enableTariffs" Relationship="Self.FK_enableTariffs_clientPhones" FromRole="clientPhones" ToRole="enableTariffs" />
+        </EntityType>
+        <EntityType Name="clients">
+          <Key>
+            <PropertyRef Name="idClient" />
+          </Key>
+          <Property Name="idClient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="passport" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="clientPhones" Relationship="Self.FK_clientPhones_clients" FromRole="clients" ToRole="clientPhones" />
+        </EntityType>
+        <EntityType Name="enableAdditionalServices">
+          <Key>
+            <PropertyRef Name="idEnableAdditionService" />
+          </Key>
+          <Property Name="idEnableAdditionService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idEnableTariff" Type="Int32" Nullable="false" />
+          <Property Name="idAdditionalService" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="additionalServices" Relationship="Self.FK_enableAdditionalServices_additionalServices" FromRole="enableAdditionalServices" ToRole="additionalServices" />
+          <NavigationProperty Name="enableTariffs" Relationship="Self.FK_enableAdditionalServices_enableTariffs" FromRole="enableAdditionalServices" ToRole="enableTariffs" />
+        </EntityType>
+        <EntityType Name="enableTariffs">
+          <Key>
+            <PropertyRef Name="idEnableTariff" />
+          </Key>
+          <Property Name="idEnableTariff" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idClientPhone" Type="Int32" Nullable="false" />
+          <Property Name="idTariff" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="clientPhones" Relationship="Self.FK_enableTariffs_clientPhones" FromRole="enableTariffs" ToRole="clientPhones" />
+          <NavigationProperty Name="enableAdditionalServices" Relationship="Self.FK_enableAdditionalServices_enableTariffs" FromRole="enableTariffs" ToRole="enableAdditionalServices" />
+          <NavigationProperty Name="tariffs" Relationship="Self.FK_enableTariffs_tariffs" FromRole="enableTariffs" ToRole="tariffs" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tariffs">
+          <Key>
+            <PropertyRef Name="idTarif" />
+          </Key>
+          <Property Name="idTarif" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="minutes" Type="Int32" Nullable="false" />
+          <Property Name="gb" Type="Int32" Nullable="false" />
+          <Property Name="sms" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <NavigationProperty Name="additionalServices" Relationship="Self.FK_additionalServices_tariffs" FromRole="tariffs" ToRole="additionalServices" />
+          <NavigationProperty Name="enableTariffs" Relationship="Self.FK_enableTariffs_tariffs" FromRole="tariffs" ToRole="enableTariffs" />
+        </EntityType>
+        <EntityType Name="types">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="View_1">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="minutes" />
+            <PropertyRef Name="gb" />
+            <PropertyRef Name="sms" />
+            <PropertyRef Name="price" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idTariffs" Type="Int32" />
+          <Property Name="minutesPrice" Type="Int32" />
+          <Property Name="smsPrice" Type="Int32" />
+          <Property Name="gbPrice" Type="Int32" />
+          <Property Name="minutes" Type="Int32" Nullable="false" />
+          <Property Name="gb" Type="Int32" Nullable="false" />
+          <Property Name="sms" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_additionalServices_tariffs">
+          <End Role="tariffs" Type="Self.tariffs" Multiplicity="1" />
+          <End Role="additionalServices" Type="Self.additionalServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tariffs">
+              <PropertyRef Name="idTarif" />
+            </Principal>
+            <Dependent Role="additionalServices">
+              <PropertyRef Name="idTariffs" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableAdditionalServices_additionalServices">
+          <End Role="additionalServices" Type="Self.additionalServices" Multiplicity="1" />
+          <End Role="enableAdditionalServices" Type="Self.enableAdditionalServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="additionalServices">
+              <PropertyRef Name="idAdditionalService" />
+            </Principal>
+            <Dependent Role="enableAdditionalServices">
+              <PropertyRef Name="idAdditionalService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_clientPhones_clients">
+          <End Role="clients" Type="Self.clients" Multiplicity="1" />
+          <End Role="clientPhones" Type="Self.clientPhones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clients">
+              <PropertyRef Name="idClient" />
+            </Principal>
+            <Dependent Role="clientPhones">
+              <PropertyRef Name="idClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableTariffs_clientPhones">
+          <End Role="clientPhones" Type="Self.clientPhones" Multiplicity="1" />
+          <End Role="enableTariffs" Type="Self.enableTariffs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clientPhones">
+              <PropertyRef Name="idClientPhone" />
+            </Principal>
+            <Dependent Role="enableTariffs">
+              <PropertyRef Name="idClientPhone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableAdditionalServices_enableTariffs">
+          <End Role="enableTariffs" Type="Self.enableTariffs" Multiplicity="1" />
+          <End Role="enableAdditionalServices" Type="Self.enableAdditionalServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="enableTariffs">
+              <PropertyRef Name="idEnableTariff" />
+            </Principal>
+            <Dependent Role="enableAdditionalServices">
+              <PropertyRef Name="idEnableTariff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enableTariffs_tariffs">
+          <End Role="tariffs" Type="Self.tariffs" Multiplicity="1" />
+          <End Role="enableTariffs" Type="Self.enableTariffs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tariffs">
+              <PropertyRef Name="idTarif" />
+            </Principal>
+            <Dependent Role="enableTariffs">
+              <PropertyRef Name="idTariff" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="cellServiceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="additionalServices" EntityType="Self.additionalServices" />
+          <EntitySet Name="clientPhones" EntityType="Self.clientPhones" />
+          <EntitySet Name="clients" EntityType="Self.clients" />
+          <EntitySet Name="enableAdditionalServices" EntityType="Self.enableAdditionalServices" />
+          <EntitySet Name="enableTariffs" EntityType="Self.enableTariffs" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tariffs" EntityType="Self.tariffs" />
+          <EntitySet Name="types" EntityType="Self.types" />
+          <EntitySet Name="View_1" EntityType="Self.View_1" />
+          <AssociationSet Name="FK_additionalServices_tariffs" Association="Self.FK_additionalServices_tariffs">
+            <End Role="tariffs" EntitySet="tariffs" />
+            <End Role="additionalServices" EntitySet="additionalServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableAdditionalServices_additionalServices" Association="Self.FK_enableAdditionalServices_additionalServices">
+            <End Role="additionalServices" EntitySet="additionalServices" />
+            <End Role="enableAdditionalServices" EntitySet="enableAdditionalServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clientPhones_clients" Association="Self.FK_clientPhones_clients">
+            <End Role="clients" EntitySet="clients" />
+            <End Role="clientPhones" EntitySet="clientPhones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableTariffs_clientPhones" Association="Self.FK_enableTariffs_clientPhones">
+            <End Role="clientPhones" EntitySet="clientPhones" />
+            <End Role="enableTariffs" EntitySet="enableTariffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableAdditionalServices_enableTariffs" Association="Self.FK_enableAdditionalServices_enableTariffs">
+            <End Role="enableTariffs" EntitySet="enableTariffs" />
+            <End Role="enableAdditionalServices" EntitySet="enableAdditionalServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enableTariffs_tariffs" Association="Self.FK_enableTariffs_tariffs">
+            <End Role="tariffs" EntitySet="tariffs" />
+            <End Role="enableTariffs" EntitySet="enableTariffs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище cellServiceModelContainer" CdmEntityContainer="cellServiceEntities">
+          <EntitySetMapping Name="additionalServices">
+            <EntityTypeMapping TypeName="cellServiceModel.additionalServices">
+              <MappingFragment StoreEntitySet="additionalServices">
+                <ScalarProperty Name="idAdditionalService" ColumnName="idAdditionalService" />
+                <ScalarProperty Name="idTariffs" ColumnName="idTariffs" />
+                <ScalarProperty Name="minutesPrice" ColumnName="minutesPrice" />
+                <ScalarProperty Name="smsPrice" ColumnName="smsPrice" />
+                <ScalarProperty Name="gbPrice" ColumnName="gbPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clientPhones">
+            <EntityTypeMapping TypeName="cellServiceModel.clientPhones">
+              <MappingFragment StoreEntitySet="clientPhones">
+                <ScalarProperty Name="idClientPhone" ColumnName="idClientPhone" />
+                <ScalarProperty Name="idClient" ColumnName="idClient" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clients">
+            <EntityTypeMapping TypeName="cellServiceModel.clients">
+              <MappingFragment StoreEntitySet="clients">
+                <ScalarProperty Name="idClient" ColumnName="idClient" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="passport" ColumnName="passport" />
+                <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="enableAdditionalServices">
+            <EntityTypeMapping TypeName="cellServiceModel.enableAdditionalServices">
+              <MappingFragment StoreEntitySet="enableAdditionalServices">
+                <ScalarProperty Name="idEnableAdditionService" ColumnName="idEnableAdditionService" />
+                <ScalarProperty Name="idEnableTariff" ColumnName="idEnableTariff" />
+                <ScalarProperty Name="idAdditionalService" ColumnName="idAdditionalService" />
+                <ScalarProperty Name="count" ColumnName="count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="enableTariffs">
+            <EntityTypeMapping TypeName="cellServiceModel.enableTariffs">
+              <MappingFragment StoreEntitySet="enableTariffs">
+                <ScalarProperty Name="idEnableTariff" ColumnName="idEnableTariff" />
+                <ScalarProperty Name="idClientPhone" ColumnName="idClientPhone" />
+                <ScalarProperty Name="idTariff" ColumnName="idTariff" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="cellServiceModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tariffs">
+            <EntityTypeMapping TypeName="cellServiceModel.tariffs">
+              <MappingFragment StoreEntitySet="tariffs">
+                <ScalarProperty Name="idTarif" ColumnName="idTarif" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="minutes" ColumnName="minutes" />
+                <ScalarProperty Name="gb" ColumnName="gb" />
+                <ScalarProperty Name="sms" ColumnName="sms" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="types">
+            <EntityTypeMapping TypeName="cellServiceModel.types">
+              <MappingFragment StoreEntitySet="types">
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_1">
+            <EntityTypeMapping TypeName="cellServiceModel.View_1">
+              <MappingFragment StoreEntitySet="View_1">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idTariffs" ColumnName="idTariffs" />
+                <ScalarProperty Name="minutesPrice" ColumnName="minutesPrice" />
+                <ScalarProperty Name="smsPrice" ColumnName="smsPrice" />
+                <ScalarProperty Name="gbPrice" ColumnName="gbPrice" />
+                <ScalarProperty Name="minutes" ColumnName="minutes" />
+                <ScalarProperty Name="gb" ColumnName="gb" />
+                <ScalarProperty Name="sms" ColumnName="sms" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
