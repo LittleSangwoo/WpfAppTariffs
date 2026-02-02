@@ -30,3 +30,11 @@ Desktop-приложение на WPF, разработанное в рамка�
 - Реализован в конкурсном формате
 - Ограниченные сроки
 - Получено 3 место
+
+## Скриншоты
+![sreen](screenshots/sreen1.jpg)
+![sreen](screenshots/sreen2.jpg)
+![sreen](screenshots/sreen3.jpg)
+![sreen](screenshots/sreen4.jpg)
+![sreen](screenshots/sreen5.jpg)
+![sreen](screenshots/sreen6.jpg)
